@@ -4,12 +4,13 @@
 
 ### 1. Create the app in Coolify
 - Source: your Git repository
-- Build Pack: **Nixpacks** (auto-detected, uses `nixpacks.toml`)
+- Build Pack: **Dockerfile** (select this — do NOT use Nixpacks)
 - Port: `80`
 
 ### 2. Set environment variables
 Copy `.env.production` into Coolify's **Environment Variables** panel and fill in:
 ```
+APP_KEY=           ← run: php artisan key:generate --show
 APP_URL=https://yourdomain.com
 DB_HOST=...
 DB_DATABASE=...
@@ -28,12 +29,16 @@ In Coolify → your app → **Storages** tab, add:
 This keeps uploaded images across deploys. Without this, every deploy wipes your uploads.
 
 ### 4. Deploy
-Click **Deploy**. Coolify will:
+Click **Deploy**. The Docker build will:
+- Install PHP extensions, Composer, Node
 - Install Composer & npm dependencies
 - Build frontend assets (`npm run build`)
+
+On container start, it will automatically:
+- Run `php artisan storage:link --force`
 - Run `php artisan migrate --force`
-- Run `php artisan storage:link --force` ← creates the symlink automatically
-- Cache config/routes/views
+- Cache config/routes/views/events
+- Start nginx + php-fpm via supervisord
 
 ---
 
@@ -71,7 +76,7 @@ Click **Deploy**. Coolify will:
 
 | Cause | Fix |
 |---|---|
-| `public/storage` symlink missing | `php artisan storage:link` runs on every deploy via `nixpacks.toml` |
+| `public/storage` symlink missing | `php artisan storage:link --force` runs on every container start |
 | Uploaded files lost on redeploy | Persistent volume mounted at `storage/app/public` |
 | Wrong image URL generated | `AppServiceProvider` auto-detects base URL from HTTP request — no hardcoded path |
 | `ASSET_URL=/digitalp` on VPS | Remove `ASSET_URL` from production `.env` |
