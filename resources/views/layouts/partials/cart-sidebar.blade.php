@@ -83,7 +83,7 @@
     <div id="cart-footer" style="display:none; border-top:1px solid #e5e7eb; padding:14px 20px; flex-shrink:0;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
             <span style="font-size:0.9rem; font-weight:600; color:#374151;">Subtotal</span>
-            <span id="cart-sidebar-total" style="font-size:1.1rem; font-weight:700; color:#111827;">৳0</span>
+            <span id="cart-sidebar-total" style="font-size:1.1rem; font-weight:700; color:#111827;">0৳</span>
         </div>
         <a id="cart-checkout-btn" href="{{ route('checkout.index') }}" style="display:block; text-align:center; padding:15px; background:#f97316; color:#fff; font-size:0.88rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; text-decoration:none; border-radius:6px; margin-bottom:10px; animation:checkoutAttract 5s ease-in-out infinite 2s;" onmouseover="this.style.background='#ea6c0a'" onmouseout="this.style.background='#f97316'">
             Checkout
@@ -102,6 +102,6 @@
         <span id="cart-float-label" style="font-size:0.7rem; font-weight:700; white-space:nowrap;">0 Items</span>
     </div>
     <div style="background:#e86810; color:#fff; padding:4px 16px; text-align:center;">
-        <span id="cart-float-total" style="font-size:0.75rem; font-weight:700;">৳0</span>
+        <span id="cart-float-total" style="font-size:0.75rem; font-weight:700;">0৳</span>
     </div>
 </div>

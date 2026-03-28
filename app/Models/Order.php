@@ -11,7 +11,7 @@ class Order extends Model
         'order_number', 'status',
         'shipping_name', 'shipping_phone', 'shipping_district', 'shipping_thana', 'shipping_address',
         'billing_name', 'billing_phone', 'billing_country', 'billing_district', 'billing_thana', 'billing_address',
-        'payment_method', 'payment_status',
+        'payment_method', 'payment_status', 'bkash_payment_id', 'bkash_trx_id', 'ssl_val_id',
         'coupon_code', 'coupon_discount',
         'notes', 'subtotal', 'delivery_cost', 'total',
     ];

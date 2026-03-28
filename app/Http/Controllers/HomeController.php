@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Faq;
 use App\Models\HomeSection;
 use App\Models\Product;
 use App\Models\Slider;
@@ -66,6 +67,8 @@ class HomeController extends Controller
 
             'brands' => Brand::where('is_active', true)
                 ->with('media')->orderBy('sort_order')->get(),
+
+            'faq' => Faq::active()->with('category')->orderBy('sort_order')->get(),
 
             default => null,
         };

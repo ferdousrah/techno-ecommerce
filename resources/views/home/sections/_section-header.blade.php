@@ -5,13 +5,15 @@
     $dividerColor  = !empty($section->extra['divider_color']) ? $section->extra['divider_color'] : $primaryColor;
     $hasViewAll    = !empty($viewAllUrl);
     $uid           = 'sh' . $section->id;
+    $headingAlign  = $section->extra['heading_align'] ?? 'left';
+    $showDivider   = $section->extra['show_divider'] ?? true;
 @endphp
 
 @if($section->title || $section->subtitle || $hasViewAll)
-<div class="{{ $uid }}-wrap" style="margin-bottom:28px;">
+<div class="{{ $uid }}-wrap" style="margin-bottom:28px; text-align:{{ $headingAlign }};">
 
     {{-- Row 1: Title + View All --}}
-    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:{{ $section->subtitle ? '4px' : '12px' }};">
+    <div style="display:flex; align-items:flex-start; justify-content:{{ $headingAlign === 'center' ? 'center' : ($headingAlign === 'right' ? 'flex-end' : 'space-between') }}; gap:16px; margin-bottom:{{ $section->subtitle ? '4px' : '12px' }};">
         @if($section->title)
         <h2 class="{{ $uid }}-title"
             style="font-weight:{{ $section->heading_weight }}; color:{{ $section->heading_color }}; margin:0; line-height:1.2;">
@@ -20,7 +22,7 @@
         @endif
 
         @if($hasViewAll)
-        <a href="{{ $viewAllUrl }}" class="{{ $uid }}-va" style="flex-shrink:0; padding-top:4px;">
+        <a href="{{ $viewAllUrl }}" class="{{ $uid }}-va" style="flex-shrink:0; padding-top:4px; margin-left:{{ $headingAlign === 'left' ? 'auto' : '16px' }};">
             <span>{{ $viewAllText }}</span>
             <span class="{{ $uid }}-arrow">
                 <svg style="width:14px;height:14px;display:block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,6 +42,7 @@
     @endif
 
     {{-- Row 3: Animated divider --}}
+    @if($showDivider)
     <div class="{{ $uid }}-divider" style="display:flex; align-items:center; gap:8px; height:4px;">
         {{-- Short solid accent segment --}}
         <div class="{{ $uid }}-solid" style="width:0; height:3px; background:{{ $dividerColor }}; border-radius:2px; flex-shrink:0; transition:none;"></div>
@@ -49,6 +52,7 @@
             <div class="{{ $uid }}-line" style="position:absolute; inset:0; background:repeating-linear-gradient(to right, {{ $dividerColor }}55 0px, {{ $dividerColor }}55 6px, transparent 6px, transparent 12px); transform:scaleX(0); transform-origin:left center;"></div>
         </div>
     </div>
+    @endif
 
 </div>
 
@@ -103,6 +107,7 @@
 }
 </style>
 
+@if($showDivider)
 <script>
 (function() {
     var divider = document.querySelector('.{{ $uid }}-divider');
@@ -121,4 +126,5 @@
     observer.observe(divider);
 })();
 </script>
+@endif
 @endif

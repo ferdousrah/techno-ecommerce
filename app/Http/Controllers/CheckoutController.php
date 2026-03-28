@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\BangladeshGeoService;
+use App\Services\BkashService;
 use App\Services\CartService;
+use App\Services\SslcommerzService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
@@ -105,6 +108,46 @@ class CheckoutController extends Controller
                 'quantity'      => $item['qty'],
                 'subtotal'      => $item['price'] * $item['qty'],
             ]);
+        }
+
+        // bKash: create payment and redirect
+        if ($validated['payment_method'] === 'bkash') {
+            try {
+                $bkash    = app(BkashService::class);
+                $callback = route('bkash.callback');
+                $result   = $bkash->createPayment($total, $order->order_number, $callback);
+
+                $order->update(['bkash_payment_id' => $result['paymentID']]);
+
+                return redirect()->away($result['bkashURL']);
+            } catch (\Exception $e) {
+                Log::error('bKash create payment error: ' . $e->getMessage());
+                $order->delete();
+                return back()->with('error', 'Could not initiate bKash payment. Please try again or choose another method.');
+            }
+        }
+
+        // SSLCommerz online payment
+        if ($validated['payment_method'] === 'online') {
+            try {
+                $ssl    = app(SslcommerzService::class);
+                $result = $ssl->initiatePayment([
+                    'amount'       => $total,
+                    'tran_id'      => $order->order_number,
+                    'cus_name'     => $validated['shipping_name'],
+                    'cus_phone'    => $validated['shipping_phone'],
+                    'cus_address'  => $validated['shipping_address'],
+                    'cus_city'     => $validated['shipping_district'],
+                    'product_name' => 'Order ' . $order->order_number,
+                ]);
+
+                return redirect()->away($result['GatewayPageURL']);
+
+            } catch (\Exception $e) {
+                Log::error('SSLCommerz initiate error: ' . $e->getMessage());
+                $order->delete();
+                return back()->with('error', 'Could not initiate online payment. Please try again or choose another method.');
+            }
         }
 
         CartService::clear();

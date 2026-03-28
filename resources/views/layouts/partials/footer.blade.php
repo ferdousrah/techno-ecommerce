@@ -8,7 +8,7 @@
                     <span class="text-xl font-display font-bold text-primary-400">Digital</span>
                     <span class="text-xl font-display font-bold text-accent-400">Support</span>
                 </div>
-                <p class="text-surface-400 mb-4">Your trusted partner for digital products and computer accessories. Quality products, great prices.</p>
+                <p class="text-surface-400 mb-4">{{ sc('footer', 'tagline', 'Your trusted partner for digital products and computer accessories. Quality products, great prices.') }}</p>
                 <div class="flex gap-3">
                     <a href="#" class="w-10 h-10 rounded-full bg-surface-800 flex items-center justify-center hover:bg-primary-600 transition-colors" aria-label="Facebook">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -24,7 +24,7 @@
 
             <!-- Quick links -->
             <div>
-                <h3 class="text-white font-semibold text-lg mb-4">Quick Links</h3>
+                <h3 class="text-white font-semibold text-lg mb-4">{{ sc('footer', 'quick_links_title', 'Quick Links') }}</h3>
                 <ul class="space-y-2">
                     <li><a href="{{ route('products.index') }}" class="hover:text-primary-400 transition-colors">Products</a></li>
                     <li><a href="{{ route('services.index') }}" class="hover:text-primary-400 transition-colors">Services</a></li>
@@ -37,18 +37,18 @@
 
             <!-- Categories -->
             <div>
-                <h3 class="text-white font-semibold text-lg mb-4">Categories</h3>
+                <h3 class="text-white font-semibold text-lg mb-4">{{ sc('footer', 'categories_title', 'Categories') }}</h3>
                 <ul class="space-y-2">
                     @foreach(\App\Models\Category::active()->whereNull('parent_id')->orderBy('sort_order')->limit(6)->get() as $cat)
                     <li><a href="{{ route('categories.show', $cat) }}" class="hover:text-primary-400 transition-colors">{{ $cat->name }}</a></li>
                     @endforeach
-                    <li><a href="{{ route('products.index') }}" class="text-primary-400 hover:text-primary-300 transition-colors font-medium">All Categories &rarr;</a></li>
+                    <li><a href="{{ route('products.index') }}" class="text-primary-400 hover:text-primary-300 transition-colors font-medium">{{ sc('footer', 'all_categories_link', 'All Categories →') }}</a></li>
                 </ul>
             </div>
 
             <!-- Contact Info -->
             <div>
-                <h3 class="text-white font-semibold text-lg mb-4">Contact Us</h3>
+                <h3 class="text-white font-semibold text-lg mb-4">{{ sc('footer', 'contact_title', 'Contact Us') }}</h3>
                 <ul class="space-y-3">
                     <li class="flex items-start gap-3">
                         <svg class="w-5 h-5 text-primary-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -70,7 +70,7 @@
     <!-- Bottom bar -->
     <div class="border-t border-surface-800">
         <div class="container-custom px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p class="text-surface-500 text-sm">&copy; {{ date('Y') }} Digital Support. All rights reserved.</p>
+            <p class="text-surface-500 text-sm">{{ sc('footer', 'copyright', '© ' . date('Y') . ' Digital Support. All Rights Reserved.') }}</p>
             <div class="flex gap-4 text-sm">
                 <a href="/page/privacy-policy" class="text-surface-500 hover:text-primary-400 transition-colors">Privacy Policy</a>
                 <a href="/page/terms-of-service" class="text-surface-500 hover:text-primary-400 transition-colors">Terms of Service</a>

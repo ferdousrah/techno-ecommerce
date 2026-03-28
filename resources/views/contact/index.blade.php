@@ -22,28 +22,28 @@
                     <div class="grid sm:grid-cols-2 gap-6">
                         <div>
                             <label for="name" class="block text-sm font-medium text-surface-700 mb-1">Name *</label>
-                            <input type="text" id="name" name="name" value="{{ old('name') }}" required class="w-full border-surface-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
+                            <input type="text" id="name" name="name" value="{{ old('name') }}" required placeholder="{{ sc('contact', 'name_placeholder', 'Your full name') }}" class="w-full border-surface-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
                             @error('name')<p class="text-accent-500 text-sm mt-1">{{ $message }}</p>@enderror
                         </div>
                         <div>
                             <label for="email" class="block text-sm font-medium text-surface-700 mb-1">Email *</label>
-                            <input type="email" id="email" name="email" value="{{ old('email') }}" required class="w-full border-surface-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
+                            <input type="email" id="email" name="email" value="{{ old('email') }}" required placeholder="{{ sc('contact', 'email_placeholder', 'your@email.com') }}" class="w-full border-surface-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
                             @error('email')<p class="text-accent-500 text-sm mt-1">{{ $message }}</p>@enderror
                         </div>
                     </div>
                     <div class="grid sm:grid-cols-2 gap-6">
                         <div>
                             <label for="phone" class="block text-sm font-medium text-surface-700 mb-1">Phone</label>
-                            <input type="text" id="phone" name="phone" value="{{ old('phone') }}" class="w-full border-surface-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
+                            <input type="text" id="phone" name="phone" value="{{ old('phone') }}" placeholder="{{ sc('contact', 'phone_placeholder', '01XXXXXXXXX') }}" class="w-full border-surface-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
                         </div>
                         <div>
                             <label for="subject" class="block text-sm font-medium text-surface-700 mb-1">Subject</label>
-                            <input type="text" id="subject" name="subject" value="{{ old('subject') }}" class="w-full border-surface-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
+                            <input type="text" id="subject" name="subject" value="{{ old('subject') }}" placeholder="{{ sc('contact', 'subject_placeholder', 'How can we help?') }}" class="w-full border-surface-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
                         </div>
                     </div>
                     <div>
                         <label for="message" class="block text-sm font-medium text-surface-700 mb-1">Message *</label>
-                        <textarea id="message" name="message" rows="6" required class="w-full border-surface-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">{{ old('message') }}</textarea>
+                        <textarea id="message" name="message" rows="6" required placeholder="{{ sc('contact', 'message_placeholder', 'Write your message here...') }}" class="w-full border-surface-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">{{ old('message') }}</textarea>
                         @error('message')<p class="text-accent-500 text-sm mt-1">{{ $message }}</p>@enderror
                     </div>
                     <button type="submit" class="btn-primary">Send Message</button>

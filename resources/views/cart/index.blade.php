@@ -54,7 +54,7 @@
 
                     {{-- Price --}}
                     <div style="text-align:center;">
-                        <span style="font-size:0.9rem; font-weight:600; color:#374151;">৳{{ number_format($item['price'], 2) }}</span>
+                        <span style="font-size:0.9rem; font-weight:600; color:#374151;">{{ number_format($item['price'], 2) }}৳</span>
                     </div>
 
                     {{-- Quantity --}}
@@ -70,7 +70,7 @@
 
                     {{-- Subtotal --}}
                     <div style="text-align:right;">
-                        <span class="row-subtotal" style="font-size:0.925rem; font-weight:700; color:#f97316;">৳{{ number_format($item['price'] * $item['qty'], 2) }}</span>
+                        <span class="row-subtotal" style="font-size:0.925rem; font-weight:700; color:#f97316;">{{ number_format($item['price'] * $item['qty'], 2) }}৳</span>
                     </div>
 
                     {{-- Remove --}}
@@ -103,7 +103,7 @@
             <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
                 <div style="display:flex; justify-content:space-between; font-size:0.875rem; color:#6b7280;">
                     <span>Subtotal (<span id="page-item-count">{{ array_sum(array_column($items, 'qty')) }}</span> items)</span>
-                    <span id="page-subtotal" style="font-weight:600; color:#111827;">৳{{ number_format($total, 2) }}</span>
+                    <span id="page-subtotal" style="font-weight:600; color:#111827;">{{ number_format($total, 2) }}৳</span>
                 </div>
                 <div style="display:flex; justify-content:space-between; font-size:0.875rem; color:#6b7280;">
                     <span>Shipping</span>
@@ -113,7 +113,7 @@
 
             <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 0; border-top:1px solid #e5e7eb; border-bottom:1px solid #e5e7eb; margin-bottom:20px;">
                 <span style="font-size:1rem; font-weight:700; color:#111827;">Total</span>
-                <span id="page-total" style="font-size:1.25rem; font-weight:800; color:#f97316;">৳{{ number_format($total, 2) }}</span>
+                <span id="page-total" style="font-size:1.25rem; font-weight:800; color:#f97316;">{{ number_format($total, 2) }}৳</span>
             </div>
 
             <a href="{{ route('contact.index') }}" style="display:block; text-align:center; padding:15px; background:#f97316; color:#fff; font-size:0.9rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; text-decoration:none; border-radius:8px; transition:background 0.2s; margin-bottom:12px;" onmouseover="this.style.background='#ea6c0a'" onmouseout="this.style.background='#f97316'">
@@ -218,8 +218,8 @@
         var st = document.getElementById('page-subtotal');
         var pt = document.getElementById('page-total');
         if (ic) ic.textContent = count;
-        if (st) st.textContent = '৳' + total;
-        if (pt) pt.textContent = '৳' + total;
+        if (st) st.textContent = total + '৳';
+        if (pt) pt.textContent = total + '৳';
         // Also update floating cart button & header badge via global renderCart
         if (typeof renderCart === 'function') renderCart(data);
         else {
@@ -229,7 +229,7 @@
             var fl = document.getElementById('cart-float-label');
             var ft = document.getElementById('cart-float-total');
             if (fl) fl.textContent = count + (count === 1 ? ' Item' : ' Items');
-            if (ft) ft.textContent = '৳' + total;
+            if (ft) ft.textContent = total + '৳';
         }
         // Reload row subtotals
         if (data.items && data.items.length) {
@@ -237,7 +237,7 @@
                 var row = document.querySelector('.cart-page-row[data-key="' + item.id + '"]');
                 if (!row) return;
                 var sub = row.querySelector('.row-subtotal');
-                if (sub) sub.textContent = '৳' + (parseFloat(item.price) * item.qty).toFixed(2);
+                if (sub) sub.textContent = (parseFloat(item.price) * item.qty).toFixed(2) + '৳';
                 var inp = row.querySelector('input[type=number]');
                 if (inp) inp.value = item.qty;
                 var btns = row.querySelectorAll('button');

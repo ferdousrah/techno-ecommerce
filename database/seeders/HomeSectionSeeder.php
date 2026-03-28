@@ -14,6 +14,7 @@ class HomeSectionSeeder extends Seeder
             'heading_color'   => '#111827',
             'subheading_color'=> '#6b7280',
             'text_align'      => 'center',
+            'extra'           => ['show_divider' => true, 'content_align' => 'left'],
         ];
 
         $sections = [
@@ -115,10 +116,18 @@ class HomeSectionSeeder extends Seeder
                 'mobile_visible'  => 3,
             ],
             [
+                'key'        => 'faq',
+                'type'       => 'faq',
+                'title'      => 'Frequently Asked Questions',
+                'subtitle'   => 'Find answers to the most common questions about our products and services.',
+                'sort_order' => 10,
+                'bg_color'   => '#f8fafc',
+            ],
+            [
                 'key'        => 'seo_block',
                 'type'       => 'seo',
                 'title'      => 'About Digital Support',
-                'sort_order' => 10,
+                'sort_order' => 11,
                 'bg_color'   => '#f9fafb',
                 'extra'      => ['content' => '<p>Digital Support is your trusted partner for digital products and computer accessories. We offer a wide range of laptops, printers, accessories, and more at competitive prices with excellent customer service.</p>'],
             ],

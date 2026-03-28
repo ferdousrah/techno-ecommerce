@@ -170,7 +170,7 @@
     {{-- Main content --}}
     <div class="container-custom px-4 sm:px-6 lg:px-8" style="padding-top:28px; padding-bottom:60px;">
 
-        <h1 style="font-size:1.5rem; font-weight:800; color:#111827; margin:0 0 24px;">Checkout</h1>
+        <h1 style="font-size:1.5rem; font-weight:800; color:#111827; margin:0 0 24px;">{{ sc('checkout', 'title', 'Checkout') }}</h1>
 
         @if($errors->any())
         <div style="background:#fef2f2; border:1px solid #fecaca; border-left:4px solid #ef4444; border-radius:8px; padding:14px 18px; margin-bottom:20px; font-size:0.85rem; color:#dc2626;">
@@ -224,7 +224,7 @@
                                                     </template>
                                                     <div>
                                                         <div x-text="item.name" style="font-weight:600; color:#111827; line-height:1.3;"></div>
-                                                        <div style="font-size:0.78rem; color:#6b7280; margin-top:2px;">Unit: <span x-text="'৳' + parseFloat(item.price).toFixed(2)"></span></div>
+                                                        <div style="font-size:0.78rem; color:#6b7280; margin-top:2px;">Unit: <span x-text="parseFloat(item.price).toFixed(2) + '৳'"></span></div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -241,7 +241,7 @@
                                             </td>
                                             <td style="padding:12px 20px; text-align:right;">
                                                 <div style="display:flex; align-items:center; justify-content:flex-end; gap:10px;">
-                                                    <span x-text="'৳' + (parseFloat(item.price) * item.qty).toFixed(2)" style="font-weight:700; color:#111827;"></span>
+                                                    <span x-text="(parseFloat(item.price) * item.qty).toFixed(2) + '৳'" style="font-weight:700; color:#111827;"></span>
                                                     <button type="button" @click="removeItem(item.key)" title="Remove item"
                                                         style="width:28px;height:28px;border:none;border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#fef2f2;color:#ef4444;transition:background 0.15s;flex-shrink:0;"
                                                         onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'">
@@ -255,7 +255,7 @@
                                     <tfoot>
                                         <tr style="background:#fafafa;">
                                             <td colspan="2" style="padding:12px 20px; font-size:0.82rem; color:#6b7280; font-weight:600;">Items Subtotal</td>
-                                            <td style="padding:12px 20px; text-align:right; font-weight:700; color:#111827;" x-text="'৳' + subtotal.toFixed(2)"></td>
+                                            <td style="padding:12px 20px; text-align:right; font-weight:700; color:#111827;" x-text="subtotal.toFixed(2) + '৳'"></td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -266,19 +266,19 @@
                         <div class="co-card">
                             <div class="co-card-header">
                                 <svg style="width:18px;height:18px;color:#f97316;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                <h3>Shipping Address</h3>
+                                <h3>{{ sc('checkout', 'shipping_title', 'Shipping Address') }}</h3>
                             </div>
                             <div class="co-card-body">
                                 <div style="display:flex; flex-direction:column; gap:20px;">
                                     <div class="co-grid-2">
                                         <div>
                                             <label class="co-label" for="shipping_name">Full Name <span style="color:#ef4444;">*</span></label>
-                                            <input class="co-input @error('shipping_name') error @enderror" type="text" id="shipping_name" name="shipping_name" value="{{ old('shipping_name') }}" placeholder="Your full name" required>
+                                            <input class="co-input @error('shipping_name') error @enderror" type="text" id="shipping_name" name="shipping_name" value="{{ old('shipping_name') }}" placeholder="{{ sc('checkout', 'name_placeholder', 'Your full name') }}" required>
                                             @error('shipping_name')<p class="co-error">{{ $message }}</p>@enderror
                                         </div>
                                         <div>
                                             <label class="co-label" for="shipping_phone">Phone Number <span style="color:#ef4444;">*</span></label>
-                                            <input class="co-input @error('shipping_phone') error @enderror" type="text" id="shipping_phone" name="shipping_phone" value="{{ old('shipping_phone') }}" placeholder="01XXXXXXXXX" required>
+                                            <input class="co-input @error('shipping_phone') error @enderror" type="text" id="shipping_phone" name="shipping_phone" value="{{ old('shipping_phone') }}" placeholder="{{ sc('checkout', 'phone_placeholder', '01XXXXXXXXX') }}" required>
                                             @error('shipping_phone')<p class="co-error">{{ $message }}</p>@enderror
                                         </div>
                                     </div>
@@ -310,7 +310,7 @@
                                     </div>
                                     <div>
                                         <label class="co-label" for="shipping_address">Full Address <span style="color:#ef4444;">*</span></label>
-                                        <textarea class="co-input @error('shipping_address') error @enderror" id="shipping_address" name="shipping_address" rows="3" placeholder="House no, Road, Area..." required style="resize:vertical;">{{ old('shipping_address') }}</textarea>
+                                        <textarea class="co-input @error('shipping_address') error @enderror" id="shipping_address" name="shipping_address" rows="3" placeholder="{{ sc('checkout', 'address_placeholder', 'House no, Road, Area...') }}" required style="resize:vertical;">{{ old('shipping_address') }}</textarea>
                                         @error('shipping_address')<p class="co-error">{{ $message }}</p>@enderror
                                     </div>
                                 </div>
@@ -321,12 +321,12 @@
                         <div class="co-card">
                             <div class="co-card-header">
                                 <svg style="width:18px;height:18px;color:#f97316;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                                <h3>Billing Address</h3>
+                                <h3>{{ sc('checkout', 'billing_title', 'Billing Address') }}</h3>
                             </div>
                             <div class="co-card-body">
                                 <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:0.85rem; font-weight:500; color:#374151; margin-bottom:14px; user-select:none;">
                                     <input type="checkbox" x-model="sameAsBilling" style="width:17px; height:17px; accent-color:#f97316; cursor:pointer;">
-                                    Same as shipping address
+                                    {{ sc('checkout', 'same_as_shipping', 'Same as shipping address') }}
                                 </label>
 
                                 <div x-show="!sameAsBilling"
@@ -340,11 +340,11 @@
                                     <div class="co-grid-2">
                                         <div>
                                             <label class="co-label" for="billing_name">Full Name</label>
-                                            <input class="co-input" type="text" id="billing_name" name="billing_name" value="{{ old('billing_name') }}" placeholder="Your full name">
+                                            <input class="co-input" type="text" id="billing_name" name="billing_name" value="{{ old('billing_name') }}" placeholder="{{ sc('checkout', 'name_placeholder', 'Your full name') }}">
                                         </div>
                                         <div>
                                             <label class="co-label" for="billing_phone">Phone Number</label>
-                                            <input class="co-input" type="text" id="billing_phone" name="billing_phone" value="{{ old('billing_phone') }}" placeholder="01XXXXXXXXX">
+                                            <input class="co-input" type="text" id="billing_phone" name="billing_phone" value="{{ old('billing_phone') }}" placeholder="{{ sc('checkout', 'phone_placeholder', '01XXXXXXXXX') }}">
                                         </div>
                                     </div>
                                     <div class="co-grid-2">
@@ -371,7 +371,7 @@
                                     </div>
                                     <div>
                                         <label class="co-label" for="billing_address">Full Address</label>
-                                        <textarea class="co-input" id="billing_address" name="billing_address" rows="3" placeholder="House no, Road, Area..." style="resize:vertical;">{{ old('billing_address') }}</textarea>
+                                        <textarea class="co-input" id="billing_address" name="billing_address" rows="3" placeholder="{{ sc('checkout', 'address_placeholder', 'House no, Road, Area...') }}" style="resize:vertical;">{{ old('billing_address') }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -382,45 +382,31 @@
                     {{-- ====== RIGHT COLUMN ====== --}}
                     <div style="display:flex; flex-direction:column; gap:20px;">
 
-                        {{-- Payment Method --}}
+                        {{-- Order Summary --}}
                         <div class="co-card">
                             <div class="co-card-header">
-                                <svg style="width:18px;height:18px;color:#f97316;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-                                <h3>Payment Method</h3>
+                                <svg style="width:18px;height:18px;color:#f97316;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                <h3>{{ sc('checkout', 'summary_title', 'Order Summary') }}</h3>
                             </div>
                             <div class="co-card-body" style="display:flex; flex-direction:column; gap:10px;">
-                                <input type="hidden" name="payment_method" :value="paymentMethod">
-
-                                {{-- COD --}}
-                                <div class="pay-card" :class="{ active: paymentMethod === 'cod' }" @click="paymentMethod = 'cod'">
-                                    <div class="pay-radio" :class="{ active: paymentMethod === 'cod' }"></div>
-                                    <div style="font-size:1.6rem; line-height:1;">💵</div>
-                                    <div>
-                                        <div style="font-size:0.85rem; font-weight:700; color:#111827;">Cash on Delivery</div>
-                                        <div style="font-size:0.76rem; color:#6b7280; margin-top:1px;">Pay when you receive</div>
-                                    </div>
+                                <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:#374151;">
+                                    <span>Items Subtotal</span>
+                                    <span style="font-weight:600;" x-text="subtotal.toFixed(2) + '৳'"></span>
                                 </div>
-
-                                {{-- Bkash --}}
-                                <div class="pay-card" :class="{ active: paymentMethod === 'bkash' }" @click="paymentMethod = 'bkash'">
-                                    <div class="pay-radio" :class="{ active: paymentMethod === 'bkash' }"></div>
-                                    <div style="width:36px; height:36px; background:#e20074; border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                                        <span style="color:#fff; font-size:0.65rem; font-weight:900; letter-spacing:-0.5px;">bKash</span>
-                                    </div>
-                                    <div>
-                                        <div style="font-size:0.85rem; font-weight:700; color:#111827;">bKash</div>
-                                        <div style="font-size:0.76rem; color:#6b7280; margin-top:1px;">Mobile banking payment</div>
-                                    </div>
+                                <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:#374151;">
+                                    <span>
+                                        Delivery Charge
+                                        <span style="font-size:0.75rem; color:#6b7280;" x-text="shippingDistrict === 'Dhaka' ? '(Inside Dhaka)' : '(Outside Dhaka)'"></span>
+                                    </span>
+                                    <span style="font-weight:600;" x-text="deliveryCost.toFixed(2) + '৳'"></span>
                                 </div>
-
-                                {{-- Online --}}
-                                <div class="pay-card" :class="{ active: paymentMethod === 'online' }" @click="paymentMethod = 'online'">
-                                    <div class="pay-radio" :class="{ active: paymentMethod === 'online' }"></div>
-                                    <div style="font-size:1.6rem; line-height:1;">💳</div>
-                                    <div>
-                                        <div style="font-size:0.85rem; font-weight:700; color:#111827;">Online Payment</div>
-                                        <div style="font-size:0.76rem; color:#6b7280; margin-top:1px;">Card / Bank transfer</div>
-                                    </div>
+                                <div style="border-top:1px dashed #e5e7eb; padding-top:10px; display:flex; justify-content:space-between; align-items:center;">
+                                    <span style="font-size:0.9rem; font-weight:700; color:#111827;">Total</span>
+                                    <span style="font-size:1.15rem; font-weight:800; color:#f97316;" x-text="orderTotal.toFixed(2) + '৳'"></span>
+                                </div>
+                                <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:9px 12px; font-size:0.78rem; color:#15803d; display:flex; align-items:center; gap:7px;">
+                                    <svg style="width:15px;height:15px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    Inside Dhaka {{ $deliveryInside }}৳ &nbsp;|&nbsp; Outside Dhaka {{ $deliveryOutside }}৳
                                 </div>
                             </div>
                         </div>
@@ -429,7 +415,7 @@
                         <div class="co-card">
                             <div class="co-card-header" style="cursor:pointer;" @click="couponOpen = !couponOpen">
                                 <svg style="width:18px;height:18px;color:#f97316;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
-                                <h3>Coupon Code</h3>
+                                <h3>{{ sc('checkout', 'coupon_title', 'Coupon Code') }}</h3>
                                 <svg width="16" height="16" :style="{ marginLeft:'auto', flexShrink:'0', transition:'transform 0.2s', transform: couponOpen ? 'rotate(180deg)' : 'rotate(0deg)', color:'#6b7280' }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                             </div>
                             <div x-show="couponOpen"
@@ -441,38 +427,54 @@
                                 x-transition:leave-end="co-acc-leave-to"
                                 class="co-card-body">
                                 <div style="display:flex; gap:8px;">
-                                    <input class="co-input" type="text" name="coupon_code" value="{{ old('coupon_code') }}" placeholder="Enter coupon code" style="flex:1;">
-                                    <button type="button" style="padding:9px 16px; background:#f97316; color:#fff; border:none; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer; white-space:nowrap; transition:background 0.2s;" onmouseover="this.style.background='#ea6c0a'" onmouseout="this.style.background='#f97316'">Apply</button>
+                                    <input class="co-input" type="text" name="coupon_code" value="{{ old('coupon_code') }}" placeholder="{{ sc('checkout', 'coupon_placeholder', 'Enter coupon code') }}" style="flex:1;">
+                                    <button type="button" style="padding:9px 16px; background:#f97316; color:#fff; border:none; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer; white-space:nowrap; transition:background 0.2s;" onmouseover="this.style.background='#ea6c0a'" onmouseout="this.style.background='#f97316'">{{ sc('checkout', 'coupon_btn', 'Apply') }}</button>
                                 </div>
                                 <p style="font-size:0.76rem; color:#6b7280; margin-top:8px; margin-bottom:0;">If you have a discount coupon, enter it above.</p>
                             </div>
                         </div>
 
-                        {{-- Order Summary --}}
+                        {{-- Payment Method --}}
                         <div class="co-card">
                             <div class="co-card-header">
-                                <svg style="width:18px;height:18px;color:#f97316;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                                <h3>Order Summary</h3>
+                                <svg style="width:18px;height:18px;color:#f97316;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                                <h3>{{ sc('checkout', 'payment_title', 'Payment Method') }}</h3>
                             </div>
                             <div class="co-card-body" style="display:flex; flex-direction:column; gap:10px;">
-                                <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:#374151;">
-                                    <span>Items Subtotal</span>
-                                    <span style="font-weight:600;" x-text="'৳' + subtotal.toFixed(2)"></span>
+                                <input type="hidden" name="payment_method" :value="paymentMethod">
+
+                                {{-- COD --}}
+                                <div class="pay-card" :class="{ active: paymentMethod === 'cod' }" @click="paymentMethod = 'cod'">
+                                    <div class="pay-radio" :class="{ active: paymentMethod === 'cod' }"></div>
+                                    <div style="font-size:1.6rem; line-height:1;">💵</div>
+                                    <div>
+                                        <div style="font-size:0.85rem; font-weight:700; color:#111827;">{{ sc('checkout', 'cod_label', 'Cash on Delivery') }}</div>
+                                        <div style="font-size:0.76rem; color:#6b7280; margin-top:1px;">{{ sc('checkout', 'cod_desc', 'Pay when your order is delivered') }}</div>
+                                    </div>
                                 </div>
-                                <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:#374151;">
-                                    <span>
-                                        Delivery Charge
-                                        <span style="font-size:0.75rem; color:#6b7280;" x-text="shippingDistrict === 'Dhaka' ? '(Inside Dhaka)' : '(Outside Dhaka)'"></span>
-                                    </span>
-                                    <span style="font-weight:600;" x-text="'৳' + deliveryCost.toFixed(2)"></span>
+
+                                {{-- Bkash --}}
+                                <div class="pay-card" :class="{ active: paymentMethod === 'bkash' }" @click="paymentMethod = 'bkash'">
+                                    <div class="pay-radio" :class="{ active: paymentMethod === 'bkash' }"></div>
+                                    <div style="width:36px; height:36px; background:#e20074; border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                                        <span style="color:#fff; font-size:0.65rem; font-weight:900; letter-spacing:-0.5px;">bKash</span>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:0.85rem; font-weight:700; color:#111827;">{{ sc('checkout', 'bkash_label', 'bKash') }}</div>
+                                        <div style="font-size:0.76rem; color:#6b7280; margin-top:1px;">{{ sc('checkout', 'bkash_desc', 'Pay securely with bKash') }}</div>
+                                    </div>
                                 </div>
-                                <div style="border-top:1px dashed #e5e7eb; padding-top:10px; display:flex; justify-content:space-between; align-items:center;">
-                                    <span style="font-size:0.9rem; font-weight:700; color:#111827;">Total</span>
-                                    <span style="font-size:1.15rem; font-weight:800; color:#f97316;" x-text="'৳' + orderTotal.toFixed(2)"></span>
-                                </div>
-                                <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:9px 12px; font-size:0.78rem; color:#15803d; display:flex; align-items:center; gap:7px;">
-                                    <svg style="width:15px;height:15px;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                    Inside Dhaka ৳{{ $deliveryInside }} &nbsp;|&nbsp; Outside Dhaka ৳{{ $deliveryOutside }}
+
+                                {{-- Online --}}
+                                <div class="pay-card" :class="{ active: paymentMethod === 'online' }" @click="paymentMethod = 'online'">
+                                    <div class="pay-radio" :class="{ active: paymentMethod === 'online' }"></div>
+                                    <div style="background:#0c713a; border-radius:6px; padding:4px 8px; flex-shrink:0; display:flex; align-items:center; justify-content:center;">
+                                        <span style="color:#fff; font-size:0.6rem; font-weight:900; letter-spacing:-0.3px; line-height:1.2; text-align:center;">SSL<br>Commerz</span>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:0.85rem; font-weight:700; color:#111827;">{{ sc('checkout', 'online_label', 'Online Payment') }}</div>
+                                        <div style="font-size:0.76rem; color:#6b7280; margin-top:1px;">{{ sc('checkout', 'online_desc', 'Card, Net Banking, MFS & more') }}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -481,10 +483,10 @@
                         <div class="co-card">
                             <div class="co-card-header">
                                 <svg style="width:18px;height:18px;color:#f97316;flex-shrink:0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                <h3>Special Notes</h3>
+                                <h3>{{ sc('checkout', 'notes_title', 'Special Notes') }}</h3>
                             </div>
                             <div class="co-card-body">
-                                <textarea class="co-input" name="notes" rows="3" placeholder="Any special instructions for your order..." style="resize:vertical;">{{ old('notes') }}</textarea>
+                                <textarea class="co-input" name="notes" rows="3" placeholder="{{ sc('checkout', 'notes_placeholder', 'Any special instructions for your order...') }}" style="resize:vertical;">{{ old('notes') }}</textarea>
                             </div>
                         </div>
 
@@ -496,7 +498,7 @@
                             </label>
                             @error('terms')<p class="co-error" style="margin-bottom:10px;">{{ $message }}</p>@enderror
 
-                            <button type="submit" class="place-btn" :disabled="submitting" x-text="submitting ? 'Placing Order...' : 'Place Order →'"></button>
+                            <button type="submit" class="place-btn" :disabled="submitting" x-text="submitting ? '{{ sc('checkout', 'place_order_btn', 'Place Order') }}...' : '{{ sc('checkout', 'place_order_btn', 'Place Order') }} →'"></button>
 
                             <div style="text-align:center; margin-top:12px;">
                                 <a href="{{ route('cart.index') }}" style="font-size:0.8rem; color:#6b7280; text-decoration:none; display:inline-flex; align-items:center; gap:5px;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#6b7280'">

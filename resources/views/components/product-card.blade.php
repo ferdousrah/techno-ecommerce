@@ -126,14 +126,14 @@
             @endif
 
             @if($pc['pc_show_order_btn'] == '1')
-            <a href="{{ route('products.show', $product) }}"
-                onclick="event.stopPropagation();"
-                style="display:flex; align-items:center; justify-content:center; gap:5px; padding:9px 6px; background:{{ $tc['color_btn_buy_bg'] }}; color:{{ $tc['color_btn_buy_text'] }}; border-radius:{{ $btnRadius }}; font-size:0.75rem; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; text-decoration:none; transition:background 0.2s, color 0.2s;"
+            <button type="button"
+                onclick="event.stopPropagation(); orderNow({{ $product->id }}, this)"
+                style="display:flex; align-items:center; justify-content:center; gap:5px; padding:9px 6px; background:{{ $tc['color_btn_buy_bg'] }}; color:{{ $tc['color_btn_buy_text'] }}; border:none; border-radius:{{ $btnRadius }}; font-size:0.75rem; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; cursor:pointer; transition:background 0.2s, color 0.2s;"
                 onmouseover="this.style.background='{{ $tc['color_btn_buy_hover_bg'] }}';this.style.color='{{ $tc['color_btn_buy_hover_text'] }}'"
                 onmouseout="this.style.background='{{ $tc['color_btn_buy_bg'] }}';this.style.color='{{ $tc['color_btn_buy_text'] }}'">
                 <i class="fi fi-rr-bolt" style="font-size:12px; line-height:1;"></i>
-                <span>Order Now</span>
-            </a>
+                <span>Buy Now</span>
+            </button>
             @endif
         </div>
         @endif

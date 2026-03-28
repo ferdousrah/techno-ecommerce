@@ -316,7 +316,7 @@
             var floatLabel = document.getElementById('cart-float-label');
             var floatTotal = document.getElementById('cart-float-total');
             if (floatLabel) floatLabel.textContent = count + (count === 1 ? ' Item' : ' Items');
-            if (floatTotal) floatTotal.textContent = '৳' + total;
+            if (floatTotal) floatTotal.textContent = total + '৳';
 
             // header badge
             var hdrBadge = document.getElementById('cart-header-badge');
@@ -346,7 +346,7 @@
 
             footer.style.display = 'block';
             var sidebarTotal = document.getElementById('cart-sidebar-total');
-            if (sidebarTotal) sidebarTotal.textContent = '৳' + total;
+            if (sidebarTotal) sidebarTotal.textContent = total + '৳';
 
             container.innerHTML = items.map(function (item) {
                 var img = item.image
@@ -359,14 +359,14 @@
                     + img
                     + '<div style="flex:1;min-width:0;">'
                     +   '<div style="font-size:0.82rem;font-weight:600;color:#111827;line-height:1.4;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + esc(item.name) + '</div>'
-                    +   '<div style="font-size:0.8rem;color:#f97316;font-weight:700;margin-bottom:8px;">৳' + parseFloat(item.price).toFixed(2) + '</div>'
+                    +   '<div style="font-size:0.8rem;color:#f97316;font-weight:700;margin-bottom:8px;">' + parseFloat(item.price).toFixed(2) + '৳</div>'
                     +   '<div style="display:flex;align-items:center;gap:8px;">'
                     +     '<div style="display:flex;align-items:center;border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;">'
                     +       '<button onclick="cartUpdateQty(\'' + item.id + '\',' + (item.qty - 1) + ')" style="width:28px;height:28px;background:none;border:none;cursor:pointer;font-size:1rem;color:#374151;display:flex;align-items:center;justify-content:center;transition:background 0.15s;" onmouseover="this.style.background=\'#f3f4f6\'" onmouseout="this.style.background=\'none\'">−</button>'
                     +       '<span style="width:32px;text-align:center;font-size:0.8rem;font-weight:600;color:#111827;">' + item.qty + '</span>'
                     +       '<button onclick="cartUpdateQty(\'' + item.id + '\',' + (item.qty + 1) + ')" style="width:28px;height:28px;background:none;border:none;cursor:pointer;font-size:1rem;color:#374151;display:flex;align-items:center;justify-content:center;transition:background 0.15s;" onmouseover="this.style.background=\'#f3f4f6\'" onmouseout="this.style.background=\'none\'">+</button>'
                     +     '</div>'
-                    +     '<span style="font-size:0.82rem;font-weight:600;color:#374151;margin-left:auto;">৳' + itemTotal + '</span>'
+                    +     '<span style="font-size:0.82rem;font-weight:600;color:#374151;margin-left:auto;">' + itemTotal + '৳</span>'
                     +   '</div>'
                     + '</div>'
                     + '<button onclick="cartRemove(\'' + item.id + '\')" style="background:none;border:none;cursor:pointer;padding:2px;color:#9ca3af;flex-shrink:0;transition:color 0.2s;" onmouseover="this.style.color=\'#ef4444\'" onmouseout="this.style.color=\'#9ca3af\'">'
@@ -388,6 +388,19 @@
                 })
                 .catch(function () { showToast('Could not add to cart.', 'error'); })
                 .finally(function () { if (btn) { btn.textContent = orig; btn.disabled = false; } });
+        };
+
+        window.orderNow = function (productId, btn) {
+            if (btn) { btn.disabled = true; btn.style.opacity = '0.7'; }
+            apiPost(CART_ADD_URL + '/' + productId, 'POST')
+                .then(function (data) {
+                    renderCart(data);
+                    window.location.href = '{{ route("checkout.index") }}';
+                })
+                .catch(function () {
+                    showToast('Could not process order.', 'error');
+                    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+                });
         };
 
         function shakeCartFloat() {
@@ -444,9 +457,9 @@
 
                 var priceHtml = '';
                 if (p.compare_price) {
-                    priceHtml += '<span style="font-size:0.67rem;color:#9ca3af;text-decoration:line-through;margin-right:4px;">৳' + p.compare_price + '</span>';
+                    priceHtml += '<span style="font-size:0.67rem;color:#9ca3af;text-decoration:line-through;margin-right:4px;">' + p.compare_price + '৳</span>';
                 }
-                priceHtml += '<span style="font-size:0.75rem;color:#f97316;font-weight:700;">৳' + p.price + '</span>';
+                priceHtml += '<span style="font-size:0.75rem;color:#f97316;font-weight:700;">' + p.price + '৳</span>';
 
                 return '<div style="min-width:' + SUGG_CARD_W + 'px;max-width:' + SUGG_CARD_W + 'px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:8px;display:flex;gap:8px;align-items:flex-start;box-shadow:0 1px 3px rgba(0,0,0,0.05);">'
                     + img
@@ -512,7 +525,7 @@
         var itemWidth = el.firstElementChild ? el.firstElementChild.offsetWidth + 20 : 200;
         el.scrollBy({ left: dir * itemWidth, behavior: 'smooth' });
     }
-    // Drag to scroll
+    // Mouse drag to scroll
     function hsCarouselDragStart(e, el) {
         el._drag = { active: true, x: e.pageX, left: el.scrollLeft };
         el.style.cursor = 'grabbing';
@@ -529,6 +542,74 @@
         el.style.cursor = 'grab';
         el.style.userSelect = '';
     }
+    // Touch swipe support
+    function hsCarouselInit() {
+        document.querySelectorAll('.hs-carousel').forEach(function(el) {
+            el.style.cursor = 'grab';
+            el.addEventListener('touchstart', function(e) {
+                el._touch = { x: e.touches[0].clientX, left: el.scrollLeft };
+            }, { passive: true });
+            el.addEventListener('touchmove', function(e) {
+                if (!el._touch) return;
+                var dx = el._touch.x - e.touches[0].clientX;
+                el.scrollLeft = el._touch.left + dx;
+            }, { passive: true });
+            el.addEventListener('touchend', function() {
+                el._touch = null;
+            }, { passive: true });
+        });
+    }
+    document.addEventListener('DOMContentLoaded', hsCarouselInit);
+
+    // Typewriter placeholder effect
+    (function() {
+        function typePlaceholder(el) {
+            var full = el.getAttribute('data-ph') || el.getAttribute('placeholder') || '';
+            if (!full) return;
+            el.setAttribute('data-ph', full);
+            el.setAttribute('placeholder', '');
+            var i = 0;
+            function type() {
+                if (i <= full.length) {
+                    el.setAttribute('placeholder', full.slice(0, i));
+                    i++;
+                    setTimeout(type, 45);
+                } else {
+                    // pause then erase then retype
+                    setTimeout(function() {
+                        erase();
+                    }, 2800);
+                }
+            }
+            function erase() {
+                var cur = el.getAttribute('placeholder');
+                if (cur.length > 0) {
+                    el.setAttribute('placeholder', cur.slice(0, -1));
+                    setTimeout(erase, 25);
+                } else {
+                    i = 0;
+                    setTimeout(type, 500);
+                }
+            }
+            // stagger start per element
+            var idx = Array.from(document.querySelectorAll('input[placeholder], textarea[placeholder], input[data-ph], textarea[data-ph]')).indexOf(el);
+            setTimeout(type, idx * 180);
+        }
+
+        document.querySelectorAll('input[placeholder]:not([type=hidden]):not([type=checkbox]):not([type=radio]), textarea[placeholder]').forEach(function(el) {
+            // skip if already focused / has value
+            el.addEventListener('focus', function() { el.setAttribute('placeholder', ''); });
+            el.addEventListener('blur', function() {
+                if (!el.value) {
+                    el.setAttribute('placeholder', '');
+                    el.setAttribute('data-ph', el.getAttribute('data-ph') || '');
+                    // restart typing
+                    setTimeout(function() { typePlaceholder(el); }, 300);
+                }
+            });
+            typePlaceholder(el);
+        });
+    })();
     </script>
 </body>
 </html>

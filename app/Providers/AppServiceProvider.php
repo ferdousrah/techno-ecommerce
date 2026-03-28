@@ -19,6 +19,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Auto-detect storage URL from the actual HTTP request.
+        // Works on XAMPP subdirectory (http://localhost/digitalp),
+        // VPS root (https://myapp.com), cPanel subdomain — no env changes needed.
+        if (!app()->runningInConsole()) {
+            $request = request();
+            $base    = rtrim($request->getSchemeAndHttpHost() . $request->getBasePath(), '/');
+            config(['filesystems.disks.public.url' => $base . '/storage']);
+        }
+
         view()->composer('layouts.partials.header', function ($view) {
             $view->with('megaCategories', \App\Models\Category::active()
                 ->whereNull('parent_id')

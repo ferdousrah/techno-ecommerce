@@ -246,6 +246,9 @@
         @case('brands')
             @include('home.sections.brands-carousel', ['section' => $section, 'brands' => $data ?? collect()])
             @break
+        @case('faq')
+            @include('home.sections.faq', ['section' => $section, 'faqs' => $data ?? collect()])
+            @break
         @case('seo')
             @include('home.sections.seo-block', ['section' => $section])
             @break

@@ -72,28 +72,28 @@
                         </div>
                     </td>
                     <td style="padding:12px; text-align:center; color:#374151; font-weight:600;">{{ $item->quantity }}</td>
-                    <td style="padding:12px 20px; text-align:right; font-weight:700; color:#111827;">৳{{ number_format($item->subtotal, 2) }}</td>
+                    <td style="padding:12px 20px; text-align:right; font-weight:700; color:#111827;">{{ number_format($item->subtotal, 2) }}৳</td>
                 </tr>
                 @endforeach
             </tbody>
             <tfoot>
                 <tr style="background:#fafafa; border-top:1px solid #e5e7eb;">
                     <td colspan="2" style="padding:10px 20px; font-size:0.82rem; color:#6b7280; font-weight:600;">Items Subtotal</td>
-                    <td style="padding:10px 20px; text-align:right; font-weight:700; color:#111827;">৳{{ number_format($order->subtotal, 2) }}</td>
+                    <td style="padding:10px 20px; text-align:right; font-weight:700; color:#111827;">{{ number_format($order->subtotal, 2) }}৳</td>
                 </tr>
                 <tr style="background:#fafafa; border-top:1px solid #f3f4f6;">
                     <td colspan="2" style="padding:10px 20px; font-size:0.82rem; color:#6b7280; font-weight:600;">Delivery Charge</td>
-                    <td style="padding:10px 20px; text-align:right; font-weight:700; color:#111827;">৳{{ number_format($order->delivery_cost, 2) }}</td>
+                    <td style="padding:10px 20px; text-align:right; font-weight:700; color:#111827;">{{ number_format($order->delivery_cost, 2) }}৳</td>
                 </tr>
                 @if($order->coupon_discount > 0)
                 <tr style="background:#f0fdf4; border-top:1px solid #f3f4f6;">
                     <td colspan="2" style="padding:10px 20px; font-size:0.82rem; color:#15803d; font-weight:600;">Coupon Discount ({{ $order->coupon_code }})</td>
-                    <td style="padding:10px 20px; text-align:right; font-weight:700; color:#15803d;">-৳{{ number_format($order->coupon_discount, 2) }}</td>
+                    <td style="padding:10px 20px; text-align:right; font-weight:700; color:#15803d;">-{{ number_format($order->coupon_discount, 2) }}৳</td>
                 </tr>
                 @endif
                 <tr style="background:#fff7ed; border-top:2px solid #f97316;">
                     <td colspan="2" style="padding:12px 20px; font-size:0.95rem; font-weight:800; color:#111827;">Total</td>
-                    <td style="padding:12px 20px; text-align:right; font-size:1.1rem; font-weight:800; color:#f97316;">৳{{ number_format($order->total, 2) }}</td>
+                    <td style="padding:12px 20px; text-align:right; font-size:1.1rem; font-weight:800; color:#f97316;">{{ number_format($order->total, 2) }}৳</td>
                 </tr>
             </tfoot>
         </table>

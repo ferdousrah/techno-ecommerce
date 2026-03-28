@@ -39,7 +39,8 @@ class ProductResource extends Resource
                         Forms\Components\TextInput::make('compare_price')->numeric()->prefix('Tk'),
                         Forms\Components\TextInput::make('cost_price')->numeric()->prefix('Tk'),
                         Forms\Components\Toggle::make('in_stock')->default(true),
-                        Forms\Components\TextInput::make('stock_quantity')->numeric()->default(0),
+                        Forms\Components\TextInput::make('stock_quantity')->numeric()->default(0)->label('Stock Quantity'),
+                        Forms\Components\TextInput::make('min_stock_quantity')->numeric()->default(5)->label('Min Stock (Low Stock Alert)')->helperText('Alert shows when stock falls at or below this number'),
                     ]),
                     Forms\Components\Tabs\Tab::make('Media')->schema([
                         SpatieMediaLibraryFileUpload::make('product_thumbnail')->collection('product_thumbnail')->image(),

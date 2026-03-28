@@ -42,6 +42,7 @@ class Product extends Model implements HasMedia
         'is_best_seller',
         'in_stock',
         'stock_quantity',
+        'min_stock_quantity',
         'meta_title',
         'meta_description',
         'specifications',
@@ -125,6 +126,11 @@ class Product extends Model implements HasMedia
     public function wishlists(): HasMany
     {
         return $this->hasMany(Wishlist::class);
+    }
+
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(\App\Models\OrderItem::class);
     }
 
     /**

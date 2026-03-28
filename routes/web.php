@@ -15,6 +15,8 @@ use App\Http\Controllers\CompareController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\BkashController;
+use App\Http\Controllers\SslcommerzController;
 use Illuminate\Support\Facades\Route;
 
 // Home
@@ -81,6 +83,25 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 Route::get('/checkout/thanas', [CheckoutController::class, 'thanas'])->name('checkout.thanas');
 Route::get('/checkout/success/{orderNumber}', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/invoice/{orderNumber}', [CheckoutController::class, 'invoice'])->name('checkout.invoice');
+Route::get('/bkash/callback', [BkashController::class, 'callback'])->name('bkash.callback');
+
+// SSLCommerz — POST callbacks exempt from CSRF via bootstrap/app.php
+Route::post('/sslcommerz/success', [SslcommerzController::class, 'success'])->name('sslcommerz.success');
+Route::post('/sslcommerz/fail',    [SslcommerzController::class, 'fail'])->name('sslcommerz.fail');
+Route::post('/sslcommerz/cancel',  [SslcommerzController::class, 'cancel'])->name('sslcommerz.cancel');
+Route::post('/sslcommerz/ipn',     [SslcommerzController::class, 'ipn'])->name('sslcommerz.ipn');
+
+// Track Order
+Route::get('/track-order', [\App\Http\Controllers\TrackOrderController::class, 'index'])->name('track-order.index');
+Route::post('/track-order', [\App\Http\Controllers\TrackOrderController::class, 'track'])->name('track-order.track');
+
+// Language switcher
+Route::get('/language/{locale}', function (string $locale) {
+    if (in_array($locale, ['en', 'bn'])) {
+        session(['locale' => $locale]);
+    }
+    return back();
+})->name('language.switch');
 
 // Static Pages
 Route::get('/about', [PageController::class, 'about'])->name('pages.about');

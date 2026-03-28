@@ -42,7 +42,7 @@
             {{-- Content --}}
             <div id="{{ $uid }}-body"
                 style="max-height:{{ $maxH }}px; overflow:hidden; transition:max-height 0.5s cubic-bezier(0.4,0,0.2,1);">
-                <div class="seo-content" style="color:#6b7280; line-height:1.8; font-size:0.9rem; text-align:{{ $section->text_align }};">
+                <div class="seo-content" style="color:#6b7280; line-height:1.8; font-size:0.9rem; text-align:{{ $section->extra['content_align'] ?? $section->text_align ?? 'left' }};">
                     {!! $content !!}
                 </div>
             </div>
@@ -54,7 +54,7 @@
         </div>
 
         {{-- Toggle button --}}
-        <div style="text-align:{{ $section->text_align }}; margin-top:12px;">
+        <div style="text-align:{{ $section->extra['content_align'] ?? $section->text_align ?? 'center' }}; margin-top:12px;">
             <button id="{{ $uid }}-btn" onclick="{{ $uid }}Toggle()"
                 style="display:inline-flex; align-items:center; gap:6px; background:none; border:1.5px solid {{ $primaryColor }}; color:{{ $primaryColor }}; font-size:0.8rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; padding:6px 18px; border-radius:20px; cursor:pointer; transition:background 0.2s, color 0.2s;"
                 onmouseover="this.style.background='{{ $primaryColor }}';this.style.color='#fff'"

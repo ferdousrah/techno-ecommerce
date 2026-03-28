@@ -22,7 +22,7 @@
         @if($section->display_type === 'carousel')
         <div class="hs-carousel-wrap" style="position:relative;">
             <div class="hs-carousel" id="prod-carousel-{{ $section->id }}"
-                style="display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; -ms-overflow-style:none; padding-bottom:4px;"
+                style="display:flex; align-items:start; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; -ms-overflow-style:none; padding-bottom:4px;"
                 onmousedown="hsCarouselDragStart(event,this)" onmousemove="hsCarouselDragMove(event,this)" onmouseup="hsCarouselDragEnd(event,this)" onmouseleave="hsCarouselDragEnd(event,this)">
                 @foreach($products as $product)
                 <div style="flex:0 0 calc((100% - {{ ($section->desktop_visible - 1) * 16 }}px) / {{ $section->desktop_visible }}); scroll-snap-align:start; min-width:0;" class="prod-item-{{ $section->id }}">
@@ -43,7 +43,7 @@
 
         @else
         @php $maxItems = $section->desktop_columns * $section->rows; @endphp
-        <div class="prod-grid-{{ $section->id }}" style="display:grid; grid-template-columns:repeat({{ $section->desktop_columns }}, 1fr); gap:20px;">
+        <div class="prod-grid-{{ $section->id }}" style="display:grid; grid-template-columns:repeat({{ $section->desktop_columns }}, 1fr); gap:20px; align-items:start; justify-items:{{ $section->extra['content_align'] ?? 'stretch' }};">
             @foreach($products->take($maxItems) as $product)
                 <x-product-card :product="$product" />
             @endforeach

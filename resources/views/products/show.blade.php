@@ -64,9 +64,9 @@
             @endif
 
             <div class="flex items-center gap-4 mb-6">
-                <span class="text-xl font-bold text-primary-600">Tk {{ number_format($product->price, 0) }}</span>
+                <span class="text-xl font-bold text-primary-600">{{ number_format($product->price, 0) }}৳</span>
                 @if($product->compare_price)
-                    <span class="text-base text-surface-400 line-through">Tk {{ number_format($product->compare_price, 0) }}</span>
+                    <span class="text-base text-surface-400 line-through">{{ number_format($product->compare_price, 0) }}৳</span>
                     <span class="bg-accent-100 text-accent-700 text-sm font-semibold px-3 py-1 rounded-full">
                         Save {{ round(($product->compare_price - $product->price) / $product->compare_price * 100) }}%
                     </span>
@@ -88,7 +88,7 @@
             @php
                 $waNumber = preg_replace('/[^0-9]/', '', \App\Services\SettingService::get('contact_whatsapp', ''));
                 $phoneNumber = \App\Services\SettingService::get('contact_phone', '');
-                $waMessage   = urlencode('Hi, I want to order: ' . $product->name . ' (Price: Tk ' . number_format($product->price, 0) . ')');
+                $waMessage   = urlencode('Hi, I want to order: ' . $product->name . ' (Price: ' . number_format($product->price, 0) . '৳)');
             @endphp
             <div x-data="{ qty: 1 }" style="margin-bottom:24px;">
                 {{-- Quantity --}}
@@ -242,7 +242,7 @@
     @if($relatedProducts->count())
     <div style="margin-top:48px; border-top:1px solid #e5e7eb; padding-top:32px;">
         <h2 class="text-2xl font-display mb-6">Related Products</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
             @foreach($relatedProducts as $related)
                 @include('components.product-card', ['product' => $related])
             @endforeach
@@ -278,16 +278,20 @@ function addToCart(productId, qty) {
     .catch(() => {});
 }
 
-// Buy Now: add to cart then redirect to checkout
+// Buy Now: add to cart (with qty) then redirect to checkout
 function buyNow(productId, qty) {
-    fetch('/cart/add/' + productId, {
+    var btn = document.querySelector('.btn-buy');
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.7'; }
+    fetch('{{ route("cart.add", "") }}/' + productId, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') },
         body: JSON.stringify({ qty: qty }),
     })
     .then(r => r.json())
     .then(() => { window.location.href = '{{ route('checkout.index') }}'; })
-    .catch(() => { window.location.href = '{{ route('checkout.index') }}'; });
+    .catch(() => {
+        if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function () {

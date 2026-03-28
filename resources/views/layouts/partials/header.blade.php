@@ -5,10 +5,30 @@
     @if(\App\Services\SettingService::get('top_bar_enabled', '1') == '1')
     <div id="top-bar" style="background:#16a34a; color:#fff; font-size:0.8125rem;">
         <div class="container-custom flex justify-between items-center px-4 sm:px-6 lg:px-8" style="height:34px;">
-            <span class="hidden sm:inline" style="opacity:0.9;">Welcome to Digital Support</span>
+            <span class="hidden sm:inline" style="opacity:0.9;">{{ sc('navbar', 'welcome', 'Welcome to Digital Support') }}</span>
             <div class="flex items-center gap-5 ml-auto">
-                <a href="{{ route('contact.index') }}" style="color:rgba(255,255,255,0.85); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Contact</a>
-                <a href="{{ route('faq.index') }}" style="color:rgba(255,255,255,0.85); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">FAQ</a>
+                <a href="{{ route('contact.index') }}" style="color:rgba(255,255,255,0.85); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">{{ sc('navbar', 'contact', 'Contact') }}</a>
+                <a href="{{ route('faq.index') }}" style="color:rgba(255,255,255,0.85); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">{{ sc('navbar', 'faq', 'FAQ') }}</a>
+
+                <!-- Language Switcher -->
+                @php $currentLocale = current_locale(); @endphp
+                <div style="display:flex; align-items:center; gap:2px; border-left:1px solid rgba(255,255,255,0.3); padding-left:12px;">
+                    <a href="{{ route('language.switch', 'en') }}"
+                       style="display:inline-flex; align-items:center; gap:3px; padding:2px 7px; border-radius:4px; font-size:0.75rem; font-weight:600; text-decoration:none; transition:all 0.15s;
+                              background:{{ $currentLocale === 'en' ? 'rgba(255,255,255,0.25)' : 'transparent' }};
+                              color:{{ $currentLocale === 'en' ? '#fff' : 'rgba(255,255,255,0.7)' }};"
+                       title="English">
+                        🇬🇧 EN
+                    </a>
+                    <span style="color:rgba(255,255,255,0.4); font-size:0.7rem;">|</span>
+                    <a href="{{ route('language.switch', 'bn') }}"
+                       style="display:inline-flex; align-items:center; gap:3px; padding:2px 7px; border-radius:4px; font-size:0.75rem; font-weight:600; text-decoration:none; transition:all 0.15s;
+                              background:{{ $currentLocale === 'bn' ? 'rgba(255,255,255,0.25)' : 'transparent' }};
+                              color:{{ $currentLocale === 'bn' ? '#fff' : 'rgba(255,255,255,0.7)' }};"
+                       title="বাংলা">
+                        🇧🇩 বাং
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -36,7 +56,7 @@
                 <form action="{{ route('search') }}" method="GET" style="position:relative;">
                     <input type="text" name="q" data-search-input
                         data-autocomplete-url="{{ route('search.autocomplete') }}"
-                        placeholder="Search in..."
+                        placeholder="{{ sc('navbar', 'search_placeholder', 'Search products...') }}"
                         style="width:100%; padding:11px 52px 11px 22px; border:1.5px solid #e5e7eb; border-radius:50px; font-size:0.9375rem; background:#f9fafb; outline:none; transition:border-color 0.2s, box-shadow 0.2s; box-sizing:border-box;"
                         onfocus="this.style.borderColor='#16a34a'; this.style.boxShadow='0 0 0 3px rgba(22,163,74,0.12)';"
                         onblur="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none';"
@@ -52,35 +72,35 @@
             <div style="display:flex; align-items:center; flex-shrink:0;">
 
                 <!-- Track Order (desktop only) -->
-                <a href="{{ route('contact.index') }}" style="display:none; flex-direction:column; align-items:center; gap:2px; padding:8px 12px; color:#374151; text-decoration:none; transition:color 0.2s;" class="lg-flex-col" onmouseover="this.style.color='#16a34a'" onmouseout="this.style.color='#374151'">
+                <a href="{{ route('track-order.index') }}" style="display:none; flex-direction:column; align-items:center; gap:2px; padding:8px 12px; color:#374151; text-decoration:none; transition:color 0.2s;" class="lg-flex-col" onmouseover="this.style.color='#16a34a'" onmouseout="this.style.color='#374151'">
                     <i class="fi fi-rr-box-open" style="font-size:22px; line-height:1;"></i>
-                    <span style="font-size:0.7125rem; font-weight:500; white-space:nowrap;">Track Order</span>
+                    <span style="font-size:0.7125rem; font-weight:500; white-space:nowrap;">{{ sc('navbar', 'track_order', 'Track Order') }}</span>
                 </a>
 
                 <!-- Sign In (desktop only) -->
                 <a href="{{ url('/admin') }}" style="display:none; flex-direction:column; align-items:center; gap:2px; padding:8px 12px; color:#374151; text-decoration:none; transition:color 0.2s;" class="lg-flex-col" onmouseover="this.style.color='#16a34a'" onmouseout="this.style.color='#374151'">
                     <i class="fi fi-rr-user" style="font-size:22px; line-height:1;"></i>
-                    <span style="font-size:0.7125rem; font-weight:500; white-space:nowrap;">Sign In</span>
+                    <span style="font-size:0.7125rem; font-weight:500; white-space:nowrap;">{{ sc('navbar', 'sign_in', 'Sign In') }}</span>
                 </a>
 
                 <!-- Wishlist -->
                 <a href="{{ route('wishlist.index') }}" style="display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 10px; color:#374151; text-decoration:none; transition:color 0.2s; position:relative;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#374151'" aria-label="Wishlist">
                     <i class="fi fi-rr-heart" style="font-size:22px; line-height:1;"></i>
-                    <span class="header-icon-label" style="font-size:0.7125rem; font-weight:500;">Wishlist</span>
+                    <span class="header-icon-label" style="font-size:0.7125rem; font-weight:500;">{{ sc('navbar', 'wishlist', 'Wishlist') }}</span>
                     <span id="wishlist-badge" style="position:absolute; top:2px; right:4px; background:#ef4444; color:#fff; font-size:0.6625rem; font-weight:700; min-width:16px; height:16px; border-radius:50%; display:{{ ($wishlistCount ?? 0) > 0 ? 'flex' : 'none' }}; align-items:center; justify-content:center; line-height:1;">{{ $wishlistCount ?? 0 }}</span>
                 </a>
 
                 <!-- Compare -->
                 <a href="{{ route('compare.index') }}" style="display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 10px; color:#374151; text-decoration:none; transition:color 0.2s; position:relative;" onmouseover="this.style.color='#16a34a'" onmouseout="this.style.color='#374151'" aria-label="Compare">
                     <i class="fi fi-rr-chart-histogram" style="font-size:22px; line-height:1;"></i>
-                    <span class="header-icon-label" style="font-size:0.7125rem; font-weight:500;">Compare</span>
+                    <span class="header-icon-label" style="font-size:0.7125rem; font-weight:500;">{{ sc('navbar', 'compare', 'Compare') }}</span>
                     <span id="compare-badge" style="position:absolute; top:2px; right:4px; background:#f97316; color:#fff; font-size:0.6625rem; font-weight:700; min-width:16px; height:16px; border-radius:50%; display:{{ ($compareCount ?? 0) > 0 ? 'flex' : 'none' }}; align-items:center; justify-content:center; line-height:1;">{{ $compareCount ?? 0 }}</span>
                 </a>
 
                 <!-- Cart -->
                 <button onclick="cartOpen()" style="display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 10px; color:#374151; background:none; border:none; cursor:pointer; transition:color 0.2s; position:relative;" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='#374151'" aria-label="Cart">
                     <i class="fi fi-rr-shopping-cart" style="font-size:22px; line-height:1;"></i>
-                    <span class="header-icon-label" style="font-size:0.7125rem; font-weight:500;">Cart</span>
+                    <span class="header-icon-label" style="font-size:0.7125rem; font-weight:500;">{{ sc('navbar', 'cart', 'Cart') }}</span>
                     <span id="cart-header-badge" style="position:absolute; top:2px; right:4px; background:#f97316; color:#fff; font-size:0.6625rem; font-weight:700; min-width:16px; height:16px; border-radius:50%; display:none; align-items:center; justify-content:center; line-height:1;">0</span>
                 </button>
 
@@ -225,7 +245,7 @@
                         <span style="background:#fef2f2; color:#ef4444; font-size:0.8125rem; font-weight:700; padding:2px 10px; border-radius:12px;">{{ $wishlistCount }}</span>
                     @endif
                 </a>
-                <a href="{{ route('compare.index') }}" style="display:flex; align-items:center; justify-content:space-between; padding:12px 0; text-decoration:none; color:#111827; font-weight:500; font-size:0.9875rem;">
+                <a href="{{ route('compare.index') }}" style="display:flex; align-items:center; justify-content:space-between; padding:12px 0; text-decoration:none; color:#111827; font-weight:500; font-size:0.9875rem; border-bottom:1px solid #f3f4f6;">
                     <span style="display:flex; align-items:center; gap:12px;">
                         <svg style="width:20px; height:20px; color:#16a34a;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                         Compare Products
@@ -233,6 +253,10 @@
                     @if(($compareCount ?? 0) > 0)
                         <span style="background:#f0fdf4; color:#16a34a; font-size:0.8125rem; font-weight:700; padding:2px 10px; border-radius:12px;">{{ $compareCount }}</span>
                     @endif
+                </a>
+                <a href="{{ route('track-order.index') }}" style="display:flex; align-items:center; gap:12px; padding:12px 0; text-decoration:none; color:{{ request()->routeIs('track-order.*') ? '#f97316' : '#111827' }}; font-weight:500; font-size:0.9875rem;">
+                    <i class="fi fi-rr-box-open" style="font-size:20px; color:{{ request()->routeIs('track-order.*') ? '#f97316' : '#9ca3af' }};"></i>
+                    {{ sc('navbar', 'track_order', 'Track Order') }}
                 </a>
             </div>
         </div>

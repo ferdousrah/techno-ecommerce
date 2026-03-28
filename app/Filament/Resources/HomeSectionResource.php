@@ -91,20 +91,32 @@ class HomeSectionResource extends Resource
                     ])->columns(4),
 
                     Forms\Components\Section::make('Alignment')->schema([
-                        Forms\Components\Select::make('text_align')
+                        Forms\Components\Select::make('extra.heading_align')
+                            ->label('Heading Alignment')
                             ->options([
                                 'left'   => 'Left',
                                 'center' => 'Center',
                                 'right'  => 'Right',
                             ])
-                            ->default('center'),
-                    ]),
+                            ->default('left'),
+                        Forms\Components\Select::make('extra.content_align')
+                            ->label('Content Alignment')
+                            ->options([
+                                'left'   => 'Left',
+                                'center' => 'Center',
+                                'right'  => 'Right',
+                            ])
+                            ->default('left'),
+                    ])->columns(2),
 
                     Forms\Components\Section::make('Divider')->schema([
+                        Forms\Components\Toggle::make('extra.show_divider')
+                            ->label('Show Divider')
+                            ->default(true),
                         Forms\Components\ColorPicker::make('extra.divider_color')
                             ->label('Divider Color')
                             ->helperText('Leave empty to use the primary brand color.'),
-                    ]),
+                    ])->columns(2),
                 ]),
 
                 // ── Tab 3: Display ──────────────────────────────────────
