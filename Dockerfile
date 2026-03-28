@@ -51,6 +51,8 @@ RUN mkdir -p storage/framework/cache/data \
              storage/framework/sessions \
              storage/framework/views \
              storage/logs \
+             storage/app/public \
+             storage/app/livewire-tmp \
              bootstrap/cache \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage \
