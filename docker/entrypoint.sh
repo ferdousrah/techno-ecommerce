@@ -3,6 +3,16 @@ set -e
 
 cd /var/www/html
 
+# Ensure required directories exist (they may be missing in a fresh container)
+mkdir -p storage/framework/cache/data \
+         storage/framework/sessions \
+         storage/framework/views \
+         storage/logs \
+         bootstrap/cache
+
+chown -R www-data:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache
+
 # Run artisan commands that need .env (only when APP_KEY is set)
 if [ -n "$APP_KEY" ]; then
     echo "Running Laravel setup commands..."
@@ -13,9 +23,6 @@ if [ -n "$APP_KEY" ]; then
     php artisan route:cache
     php artisan view:cache
     php artisan event:cache
-
-    # Fix storage permissions after linking
-    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 else
     echo "WARNING: APP_KEY not set — skipping artisan commands."
 fi
