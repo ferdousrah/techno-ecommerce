@@ -86,7 +86,7 @@ class SettingResource extends Resource
                     ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/svg+xml', 'image/x-icon', 'image/vnd.microsoft.icon', 'image/webp', 'image/gif'])
                     ->afterStateHydrated(function (Forms\Components\FileUpload $component, $state, $record) {
                         if ($record && $record->type === 'image' && $record->value) {
-                            $component->state($record->value);
+                            $component->state([$record->value]);
                         }
                     }),
 
