@@ -19,6 +19,7 @@ chmod -R 775 storage bootstrap/cache
 if [ -n "$APP_KEY" ]; then
     echo "Running Laravel setup commands..."
 
+    rm -rf public/storage
     php artisan storage:link --force
     php artisan migrate --force
     php artisan config:cache

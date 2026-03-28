@@ -1,6 +1,7 @@
 .env
 .env.*
 !.env.production
+public/storage
 .git
 .gitignore
 node_modules/
